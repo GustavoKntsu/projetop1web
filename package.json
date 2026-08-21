@@ -1,6 +1,39 @@
 {
+  "name": "projetop1web",
+  "version": "1.0.0",
+  "description": "Projeto de web 1",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "watch": "tsc --watch",
+    "start:watch": "concurrently \"npm run watch\" \"node --watch dist/index.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GustavoKntsu/projetop1web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/GustavoKntsu/projetop1web/issues"
+  },
+  "homepage": "https://github.com/GustavoKntsu/projetop1web#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "pg": "^8.23.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^1.1.0"
+  },
   "devDependencies": {
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^5.0.6",
     "@types/node": "^22.15.2",
+    "concurrently": "^10.0.5",
     "ts-node": "^10.9.2"
   }
 }

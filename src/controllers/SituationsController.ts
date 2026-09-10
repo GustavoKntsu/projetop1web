@@ -20,7 +20,7 @@ router.get("/situations", async(req: Request, res: Response)=> {
 
     }catch(error){         
         res.status(500).json({
-            menssagem: "Erro ao cadastrar situação",
+            menssagem: "Erro ao listar situação",
             
         });
         return
@@ -49,7 +49,7 @@ router.get("/situations/:id", async(req: Request, res: Response)=> {
 
     }catch(error){         
         res.status(500).json({
-            menssagem: "Erro ao cadastrar situação",
+            menssagem: "Erro ao visualizar a situação",
             
         });
         return
@@ -57,7 +57,7 @@ router.get("/situations/:id", async(req: Request, res: Response)=> {
 });
 
 
-//Criar a rota POST 
+//Cadastra o item em situação
 router.post("/situations", async(req: Request, res: Response)=> {
     
     try{
@@ -83,6 +83,77 @@ router.post("/situations", async(req: Request, res: Response)=> {
         });
 
 
+    }
+});
+
+//Fazer a EDIT do item cadastrado em situação
+router.put("/situations/:id", async(req: Request, res: Response)=> {
+    try{
+
+        const {id} = req.params;
+
+        var data = req.body;
+
+        const situationRepository = AppDataSource.getRepository(Situation);
+        
+        const situation = await situationRepository.findOneBy({ id : parseInt(id as string) });
+
+        if(!situation){
+            res.status(404).json({
+                menssagem: "Situação não encontrada",
+            });
+            return;
+        }
+        //Atualiza od dados
+        situationRepository.merge(situation, data);
+        //Salva as alterações no banco de dados
+        const updatedSituation = await situationRepository.save(situation);
+
+
+
+        res.status(200).json({
+            menssagem: "Situação atualizada com sucesso",
+            situation: updatedSituation,
+        });
+
+    }catch(error){         
+        res.status(500).json({
+            menssagem: "Erro ao atualizar a situação",
+            
+        });
+        return
+    }
+});
+
+//Deletar o item cadastrado em situação
+router.delete("/situations/:id", async(req: Request, res: Response)=> {
+    try{
+
+        const {id} = req.params;
+
+        const situationRepository = AppDataSource.getRepository(Situation);
+        
+        const situation = await situationRepository.findOneBy({ id : parseInt(id as string) });
+
+        if(!situation){
+            res.status(404).json({
+                menssagem: "Situação não encontrada",
+            });
+            return;
+        }
+        //Exclui o item
+        await situationRepository.remove(situation);
+    
+        res.status(200).json({
+            menssagem: "Situação excluída com sucesso",
+        });
+
+    }catch(error){         
+        res.status(500).json({
+            menssagem: "Erro ao atualizar a situação",
+            
+        });
+        return
     }
 });
 

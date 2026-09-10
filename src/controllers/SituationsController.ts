@@ -7,10 +7,55 @@ import { Situation } from "../entity/Situations";
 //Criar uma instância do express
 const router = express.Router();
 
-//Criar a rota GET principal
-router.get("/situations",(req: Request, res: Response)=> {
-    res.send("Essa é a sua tela de situações da rota");
+//Criar a LISTA
+router.get("/situations", async(req: Request, res: Response)=> {
+    try{
+
+        const situationRepository = AppDataSource.getRepository(Situation);
+        
+        const situations = await situationRepository.find();
+        
+        res.status(200).json(situations);
+        return
+
+    }catch(error){         
+        res.status(500).json({
+            menssagem: "Erro ao cadastrar situação",
+            
+        });
+        return
+    }
 });
+
+//Criar a VIEW do item cadastrado em situação
+router.get("/situations/:id", async(req: Request, res: Response)=> {
+    try{
+
+        const {id} = req.params;
+
+        const situationRepository = AppDataSource.getRepository(Situation);
+        
+        const situation = await situationRepository.findOneBy({ id : parseInt(id as string) });
+
+        if(!situation){
+            res.status(404).json({
+                menssagem: "Situação não encontrada",
+            });
+            return;
+        }
+
+        res.status(200).json(situation);
+        return
+
+    }catch(error){         
+        res.status(500).json({
+            menssagem: "Erro ao cadastrar situação",
+            
+        });
+        return
+    }
+});
+
 
 //Criar a rota POST 
 router.post("/situations", async(req: Request, res: Response)=> {

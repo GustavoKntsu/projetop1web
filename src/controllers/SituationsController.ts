@@ -2,6 +2,7 @@
 import express, {Request, Response} from "express";
 import { AppDataSource } from "../data-source";
 import { Situation } from "../entity/Situations";
+import { PaginationService } from "../services/PaginationService";
 //Importar a conexão com o banco de dados
 
 //Criar uma instância do express
@@ -11,11 +12,20 @@ const router = express.Router();
 router.get("/situations", async(req: Request, res: Response)=> {
     try{
 
+        //Obter o repositório da entidade Situation
         const situationRepository = AppDataSource.getRepository(Situation);
-        
-        const situations = await situationRepository.find();
-        
-        res.status(200).json(situations);
+
+        // Receber o número da página e definir página 1 como padrão
+        const page = Number(req.query.page) || 1;
+
+        // definir o limite de registros por página
+        const limit = Number(req.query.limit) || 10;
+
+        const result = await PaginationService.paginate(situationRepository, page, limit, { id: "DESC" });
+
+
+        // Retornar a resposta com os dados e informações da paginação
+        res.status(200).json(result);
         return
 
     }catch(error){         

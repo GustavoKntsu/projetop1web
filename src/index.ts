@@ -16,11 +16,12 @@ app.use(express.json());
 //Implementação dos "controlllers"
 import AuthController from "./controllers/AuthController";
 import SituationsController from "./controllers/SituationsController";
-
+import UsersController from "./controllers/UsersController";
 
 //Criação da rota para o controller login
 app.use("/", AuthController);
 app.use("/", SituationsController);
+app.use("/", UsersController);
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor iniciado na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);

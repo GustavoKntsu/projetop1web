@@ -17,11 +17,17 @@ app.use(express.json());
 import AuthController from "./controllers/AuthController";
 import SituationsController from "./controllers/SituationsController";
 import UsersController from "./controllers/UsersController";
+import ProductCategoriesController from "./controllers/ProductCategoriesController";
+import ProductSituationsController from "./controllers/ProductSituationsController";
+import ProductsController from "./controllers/ProductsController";
 
 //Criação da rota para o controller login
 app.use("/", AuthController);
 app.use("/", SituationsController);
 app.use("/", UsersController);
+app.use("/", ProductCategoriesController);
+app.use("/", ProductSituationsController);
+app.use("/", ProductsController);
 
 app.listen(process.env.PORT, () => {
   console.log(`Servidor iniciado na porta ${process.env.PORT}: http://localhost:${process.env.PORT}`);
